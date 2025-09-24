@@ -5,7 +5,8 @@ const port = 3000;
 const cors = require('cors');
 const pool = require('./db');
 const authRoutes = require('./routes/authRoutes');
-const productRoutes = require('./routes/productRoute');
+const productRoutes = require('./routes/productRoutes');
+const usersRoutes = require('./routes/usersRoutes');
 
 //Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -29,6 +30,7 @@ app.get('/db-test', async (req, res) => {
 //api routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/users', usersRoutes);
 
 // greeting Routes
 app.use('/', cors(), async (req, res) => {
