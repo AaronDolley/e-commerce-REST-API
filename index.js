@@ -4,13 +4,14 @@ const app = express();
 const port = 3000;
 const cors = require('cors');
 const pool = require('./db');
+const authRoutes = require('./routes/authRoutes');
 
 //Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 
-//testing the connection to the database
+//test route
 app.get('/db-test', async (req, res) => {
     try {
         const result = await pool.query('SELECT NOW()');
@@ -24,10 +25,15 @@ app.get('/db-test', async (req, res) => {
     }
   });  
 
-//Routes
+//api routes
+app.use('/api/auth', authRoutes);
+
+// greeting Routes
 app.use('/', cors(), async (req, res) => {
     res.send('Welcome to the E-commerce API');
 });
+
+
 
 app.listen(port, () => {
   console.log(`E-commerce API listening at http://localhost:${port}`);
