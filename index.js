@@ -7,6 +7,7 @@ const pool = require('./db');
 const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
 const usersRoutes = require('./routes/usersRoutes');
+const cartRoutes = require('./routes/cartRoutes');
 
 //Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -31,6 +32,7 @@ app.get('/db-test', async (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/users', usersRoutes);
+app.use('/api/cart', cartRoutes);
 
 // greeting Routes
 app.use('/', cors(), async (req, res) => {
