@@ -38,6 +38,20 @@ async function getOrCreateCartOrder(userId) {
   }
 }
 
+/**
+ * @swagger
+ * /api/cart:
+ *   get:
+ *     summary: Get user's cart
+ *     description: Retrieve the current user's shopping cart with all items
+ *     tags: [Cart]
+ *     responses:
+ *       200:
+ *         description: Cart retrieved successfully
+ *       500:
+ *         description: Server error
+ */
+
 //GET cart items for a user
 router.get('/', async (req, res) => {
     try {
@@ -53,6 +67,38 @@ router.get('/', async (req, res) => {
             return res.status(500).send('Server Error'); // Added return
         }
 });
+
+/**
+ * @swagger
+ * /api/cart:
+ *   post:
+ *     summary: Add item to cart
+ *     description: Add a product to the user's shopping cart
+ *     tags: [Cart]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [productId]
+ *             properties:
+ *               productId:
+ *                 type: integer
+ *                 example: 1
+ *               quantity:
+ *                 type: integer
+ *                 example: 2
+ *     responses:
+ *       201:
+ *         description: Item added to cart
+ *       400:
+ *         description: Product ID is required
+ *       404:
+ *         description: Product not found
+ *       500:
+ *         description: Server error
+ */
 
 //POST add item to cart
 router.post('/', async (req, res) => {
@@ -173,6 +219,23 @@ router.post('/checkout', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /api/cart/checkout:
+ *   post:
+ *     summary: Checkout cart
+ *     description: Convert the user's cart into a completed order
+ *     tags: [Cart]
+ *     responses:
+ *       200:
+ *         description: Checkout completed successfully
+ *       400:
+ *         description: Cannot checkout empty cart
+ *       404:
+ *         description: Cart not found
+ *       500:
+ *         description: Server error
+ */
 
 //Checkout Route
 // POST /api/cart/checkout - Convert cart to completed order

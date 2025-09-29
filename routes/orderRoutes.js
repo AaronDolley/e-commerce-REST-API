@@ -2,6 +2,20 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db');
 
+/**
+ * @swagger
+ * /api/orders:
+ *   get:
+ *     summary: Get user's order history
+ *     description: Retrieve all completed orders for the current user
+ *     tags: [Orders]
+ *     responses:
+ *       200:
+ *         description: Order history retrieved successfully
+ *       500:
+ *         description: Server error
+ */
+
 //Get all orders
 router.get('/',async (req, res) => {
     try {
@@ -15,6 +29,29 @@ router.get('/',async (req, res) => {
         res.status(500).send('Server Error');
     }
 });
+
+/**
+ * @swagger
+ * /api/orders/{id}:
+ *   get:
+ *     summary: Get order details
+ *     description: Retrieve detailed information about a specific order
+ *     tags: [Orders]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Order ID
+ *     responses:
+ *       200:
+ *         description: Order details retrieved successfully
+ *       404:
+ *         description: Order not found
+ *       500:
+ *         description: Server error
+ */
 
 //Get specific order by ID
 router.get('/:id', async (req, res) => {

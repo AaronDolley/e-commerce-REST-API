@@ -2,6 +2,25 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db');
 
+/**
+ * @swagger
+ * /api/products:
+ *   get:
+ *     summary: Get all products
+ *     description: Retrieve a list of all products in the catalog
+ *     responses:
+ *       200:
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Product'
+ *       500:
+ *         description: Server error
+ */
+
 //GET all products
 router.get('/', async (req, res) => {
     try {
@@ -28,6 +47,27 @@ router.get('/:id', async (req, res) => {
         res.status(500).send('Server Error');
     }
 });
+
+/**
+ * @swagger
+ * /api/products:
+ *   post:
+ *     summary: Create a new product
+ *     description: Add a new product to the catalog (Admin only)
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ProductInput'
+ *     responses:
+ *       201:
+ *         description: Product created successfully
+ *       400:
+ *         description: Bad request - missing required fields
+ *       500:
+ *         description: Server error
+ */
 
 //POST a new product
 router.post('/', async (req, res) => {
