@@ -112,7 +112,7 @@ router.post('/login', async (req, res) => {
         const userResult = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
         
         if(userResult.rows.length === 0) {
-            return res.status(400).json({ message: 'Invalid email' });
+            return res.status(401).json({ message: 'Invalid credentials' });
         }
 
         const user = userResult.rows[0];

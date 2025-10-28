@@ -77,9 +77,10 @@ app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 
 // greeting Routes
-app.use('/', cors(), async (req, res) => {
-    res.send('Welcome to the E-commerce API');
-});
+app.use(cors({
+  origin: 'http://localhost:3001', // Your React app port
+  credentials: true
+}));
 
 
 
