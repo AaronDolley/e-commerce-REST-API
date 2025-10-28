@@ -132,4 +132,41 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.post('/oauth', async (req, res) => {
+  try {
+    const { provider, user } = req.body;
+    
+    // Check if user exists by email
+    const userResult = await pool.query('SELECT * FROM users WHERE email = $1', [user.email]);
+    
+    let userData;
+    
+    if (userResult.rows.length > 0) {
+      // User exists - return existing user
+      userData = userResult.rows[0];
+    } else {
+      // Create new user for OAuth login
+      const newUser = await pool.query(
+        'INSERT INTO users (name, email, password, provider) VALUES ($1, $2, $3, $4) RETURNING id, name, email',
+        [user.name, user.email, 'oauth_password', provider]
+      );
+      userData = newUser.rows[0];
+    }
+    
+    res.json({
+      message: `${provider} login successful`,
+      user: {
+        id: userData.id,
+        name: userData.name,
+        email: userData.email,
+        provider: provider
+      }
+    });
+    
+  } catch (err) {
+    console.error('OAuth error:', err.message);
+    res.status(500).json({ error: 'OAuth authentication failed' });
+  }
+});
+
 module.exports = router;
